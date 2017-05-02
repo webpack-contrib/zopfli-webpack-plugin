@@ -26,6 +26,11 @@
     "travis:coverage": "yarn run test:coverage",
     "webpack-defaults": "webpack-defaults"
   },
+  "dependencies": {
+    "async": "^2.4.0",
+    "node-zopfli": "^2.0.2",
+    "webpack-sources": "^0.2.3"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-jest": "^19.0.0",
@@ -43,6 +48,9 @@
     "pre-commit": "^1.2.2",
     "standard-version": "^4.0.0",
     "webpack-defaults": "^0.4.6"
+  },
+  "peerDependencies": {
+    "webpack": "<2 || ^2.1.0-beta || ^2.2.0-rc"
   },
   "engines": {
     "node": ">= 4.3 < 5.0.0 || >= 5.10"
