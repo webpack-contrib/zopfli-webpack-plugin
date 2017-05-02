@@ -18,9 +18,18 @@ matrix:
     - os: linux
       node_js: '7'
       env: WEBPACK_VERSION="2.2.0" JOB_PART=coverage
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
 before_install:
   - nvm --version
   - node --version
+  - export CXX=g++
+  - export CC=gcc
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX=g++-4.8; fi
 before_script:
   - |-
     if [ "$WEBPACK_VERSION" ]; then
