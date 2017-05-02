@@ -27,6 +27,7 @@ before_script:
       yarn add webpack@^$WEBPACK_VERSION
     fi
 script:
+  - npm rebuild node-zopfli
   - 'yarn run travis:$JOB_PART'
 after_success:
   - 'bash <(curl -s https://codecov.io/bash)'
