@@ -1,0 +1,19 @@
+{
+  "name": "zopfli-webpack-plugin",
+  "version": "0.0.1",
+  "description": "Prepare compressed versions of assets with node-zopfli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webpack-contrib/zopfli-webpack-plugin.git"
+  },
+  "author": "Joshua Wiens @d3viant0ne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webpack-contrib/zopfli-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/webpack-contrib/zopfli-webpack-plugin#readme"
+}
