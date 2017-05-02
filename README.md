@@ -104,3 +104,4 @@ module.exports = {
 
 [cover]: https://codecov.io/gh/webpack-contrib/zopfli-webpack-plugin/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/zopfli-webpack-plugin
+
