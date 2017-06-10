@@ -1,3 +1,7 @@
 {
-  "extends": "webpack"
+  "extends": "webpack",
+  "rules": {
+    "no-param-reassign": 1,
+    "consistent-return": 1
+  }
 }
