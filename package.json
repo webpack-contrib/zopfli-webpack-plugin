@@ -1,6 +1,6 @@
 {
   "name": "zopfli-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Prepare compressed versions of assets with node-zopfli",
   "author": "Joshua Wiens @d3viant0ne",
   "main": "dist/cjs.js",
