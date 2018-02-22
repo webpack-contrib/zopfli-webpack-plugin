@@ -34,6 +34,7 @@ class ZopfliPlugin {
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
       const { assets } = compilation;
+
       async.forEach(Object.keys(assets), (file, cb) => {
         if (Array.isArray(this.test)) {
           if (this.test.every(t => !t.test(file))) {
@@ -42,6 +43,7 @@ class ZopfliPlugin {
         } else if (this.test && !this.test.test(file)) {
           return cb();
         }
+
         const asset = assets[file];
         let content = asset.source();
 
@@ -56,9 +58,13 @@ class ZopfliPlugin {
         }
 
         this.algorithm(content, this.compressionOptions, (err, result) => {
-          if (err) { return cb(err); }
+          if (err) {
+            return cb(err);
+          }
 
-          if (result.length / originalSize > this.minRatio) { return cb(); }
+          if (result.length / originalSize > this.minRatio) {
+            return cb();
+          }
 
           const parse = url.parse(file);
           const sub = {
@@ -67,16 +73,18 @@ class ZopfliPlugin {
             query: parse.query || '',
           };
 
-          let newFile = this.asset.replace(/\[(file|path|query)\]/g, (p0, p1) => sub[p1]);
+          let newAsset = this.asset.replace(/\[(file|path|query)\]/g, (p0, p1) => sub[p1]);
 
           if (typeof this.filename === 'function') {
-            newFile = this.filename(newFile);
+            newAsset = this.filename(newAsset);
           }
-          assets[newFile] = new RawSource(result);
+
+          assets[newAsset] = new RawSource(result);
 
           if (this.deleteOriginalAssets) {
             delete assets[file];
           }
+
           cb();
         });
       }, callback);
