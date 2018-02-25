@@ -32,55 +32,62 @@ class ZopfliPlugin {
   }
 
   apply(compiler) {
-    compiler.plugin('this-compilation', (compilation) => {
-      compilation.plugin('optimize-assets', (assets, callback) => {
-        async.forEach(Object.keys(assets), (file, cb) => {
-          if (Array.isArray(this.test)) {
-            if (this.test.every(t => !t.test(file))) {
-              return cb();
-            }
-          } else if (this.test && !this.test.test(file)) {
+    compiler.plugin('emit', (compilation, callback) => {
+      const { assets } = compilation;
+
+      async.forEach(Object.keys(assets), (file, cb) => {
+        if (Array.isArray(this.test)) {
+          if (this.test.every(t => !t.test(file))) {
             return cb();
           }
-          const asset = assets[file];
-          let content = asset.source();
+        } else if (this.test && !this.test.test(file)) {
+          return cb();
+        }
 
-          if (!Buffer.isBuffer(content)) {
-            content = new Buffer(content, 'utf-8');
+        const asset = assets[file];
+        let content = asset.source();
+
+        if (!Buffer.isBuffer(content)) {
+          content = new Buffer(content, 'utf-8');
+        }
+
+        const originalSize = content.length;
+
+        if (originalSize < this.threshold) {
+          return cb();
+        }
+
+        this.algorithm(content, this.compressionOptions, (err, result) => {
+          if (err) {
+            return cb(err);
           }
 
-          const originalSize = content.length;
-
-          if (originalSize < this.threshold) {
+          if (result.length / originalSize > this.minRatio) {
             return cb();
           }
 
-          this.algorithm(content, this.compressionOptions, (err, result) => {
-            if (err) { return cb(err); }
+          const parse = url.parse(file);
+          const sub = {
+            file,
+            path: parse.pathname,
+            query: parse.query || '',
+          };
 
-            if (result.length / originalSize > this.minRatio) { return cb(); }
+          let newAsset = this.asset.replace(/\[(file|path|query)\]/g, (p0, p1) => sub[p1]);
 
-            const parse = url.parse(file);
-            const sub = {
-              file,
-              path: parse.pathname,
-              query: parse.query || '',
-            };
+          if (typeof this.filename === 'function') {
+            newAsset = this.filename(newAsset);
+          }
 
-            let newFile = this.asset.replace(/\[(file|path|query)\]/g, (p0, p1) => sub[p1]);
+          assets[newAsset] = new RawSource(result);
 
-            if (typeof this.filename === 'function') {
-              newFile = this.filename(newFile);
-            }
-            assets[newFile] = new RawSource(result);
+          if (this.deleteOriginalAssets) {
+            delete assets[file];
+          }
 
-            if (this.deleteOriginalAssets) {
-              delete assets[file];
-            }
-            cb();
-          });
-        }, callback);
-      });
+          cb();
+        });
+      }, callback);
     });
   }
 }
