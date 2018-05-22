@@ -53,7 +53,6 @@ module.exports = {
 * verbose_more: Default: false,
 * numiterations: Default: 15,
 * blocksplitting: Default: true,
-* blocksplittinglast: Default: false,
 * blocksplittingmax: Default: 15
 
 <h2 align="center">Maintainers</h2>
