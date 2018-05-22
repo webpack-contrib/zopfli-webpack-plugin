@@ -32,7 +32,7 @@ class ZopfliPlugin {
   }
 
   apply(compiler) {
-    compiler.plugin('emit', (compilation, callback) => {
+    const processAssets = (compilation, callback) => {
       const { assets } = compilation;
 
       async.forEach(Object.keys(assets), (file, cb) => {
@@ -88,7 +88,13 @@ class ZopfliPlugin {
           cb();
         });
       }, callback);
-    });
+    };
+
+    if (compiler.hooks) {
+      compiler.hooks.emit.tapAsync(this.constructor.name, processAssets);
+    } else {
+      compiler.plugin('emit', processAssets);
+    }
   }
 }
 
