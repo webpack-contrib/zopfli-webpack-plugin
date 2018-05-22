@@ -1,6 +1,6 @@
 import url from 'url';
 import async from 'async';
-import zopfli from 'node-zopfli';
+import { gzip } from '@gfx/zopfli';
 import RawSource from 'webpack-sources/lib/RawSource';
 
 class ZopfliPlugin {
@@ -16,11 +16,10 @@ class ZopfliPlugin {
         verbose_more: hasOwnProperty.call(options, 'verbose_more') ? options.verbose_more : false,
         numiterations: options.numiterations ? options.numiterations : 15,
         blocksplitting: hasOwnProperty.call(options, 'blocksplitting') ? options.blocksplitting : true,
-        blocksplittinglast: hasOwnProperty.call(options, 'blocksplittinglast') ? options.blocksplittinglast : false,
         blocksplittingmax: options.blocksplittingmax ? options.blocksplittingmax : 15,
       };
       this.algorithm = (content, options, fn) => {
-        zopfli.gzip(content, options, fn);
+        gzip(content, options, fn);
       };
     } else if (!this.algorithm) {
       throw new Error('Algorithm incorrect or not found');
