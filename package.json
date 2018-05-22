@@ -28,8 +28,8 @@
     "webpack-defaults": "webpack-defaults"
   },
   "dependencies": {
+    "@gfx/zopfli": "^1.0.8",
     "async": "^2.4.0",
-    "node-zopfli": "^2.0.2",
     "webpack-sources": "^1.0.1"
   },
   "devDependencies": {
