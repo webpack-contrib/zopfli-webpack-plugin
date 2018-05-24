@@ -91,7 +91,7 @@ class ZopfliPlugin {
     };
 
     if (compiler.hooks) {
-      compiler.hooks.emit.tapAsync(this.constructor.name, processAssets);
+      compiler.hooks.emit.tapAsync('ZopfliPlugin', processAssets);
     } else {
       compiler.plugin('emit', processAssets);
     }
