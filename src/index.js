@@ -19,8 +19,8 @@ class ZopfliPlugin {
         blocksplittinglast: hasOwnProperty.call(options, 'blocksplittinglast') ? options.blocksplittinglast : false,
         blocksplittingmax: options.blocksplittingmax ? options.blocksplittingmax : 15,
       };
-      this.algorithm = (content, options, fn) => {
-        zopfli.gzip(content, options, fn);
+      this.algorithm = (content, opts, fn) => {
+        zopfli.gzip(content, opts, fn);
       };
     } else if (!this.algorithm) {
       throw new Error('Algorithm incorrect or not found');
@@ -35,7 +35,7 @@ class ZopfliPlugin {
     const processAssets = (compilation, callback) => {
       const { assets } = compilation;
 
-      async.forEach(Object.keys(assets), (file, cb) => {
+      return async.forEach(Object.keys(assets), (file, cb) => {
         if (Array.isArray(this.test)) {
           if (this.test.every(t => !t.test(file))) {
             return cb();
@@ -57,7 +57,7 @@ class ZopfliPlugin {
           return cb();
         }
 
-        this.algorithm(content, this.compressionOptions, (err, result) => {
+        return this.algorithm(content, this.compressionOptions, (err, result) => {
           if (err) {
             return cb(err);
           }
