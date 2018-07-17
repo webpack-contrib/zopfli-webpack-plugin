@@ -85,7 +85,7 @@ class ZopfliPlugin {
             delete assets[file];
           }
 
-          cb();
+          return cb();
         });
       }, callback);
     };
