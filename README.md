@@ -4,6 +4,8 @@
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 
+> **DEPRECATED**
+
 This package deprecated in favor https://github.com/webpack-contrib/compression-webpack-plugin, please look how use `zopfli` library https://github.com/webpack-contrib/compression-webpack-plugin#examples. You can use `node-zopfli` instead `@gfx/zopfli` if you need `node@6` support. Thanks for using webpack.
 
 <div align="center">
